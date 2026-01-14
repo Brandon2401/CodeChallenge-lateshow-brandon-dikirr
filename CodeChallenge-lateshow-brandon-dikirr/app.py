@@ -42,3 +42,25 @@ def guests():
         for g in guests
     ])
 
+@app.route("/appearances", methods=["POST"])
+def create_appearance():
+    data = request.get_json()
+
+    try:
+        appearance = Appearance(
+            rating=data["rating"],
+            episode_id=data["episode_id"],
+            guest_id=data["guest_id"]
+        )
+
+        db.session.add(appearance)
+        db.session.commit()
+
+        return jsonify(
+            appearance.to_dict(
+                include=("episode", "guest")
+            )
+        ), 201
+
+    except Exception as e:
+        return jsonify({"errors": [str(e)]}), 400
