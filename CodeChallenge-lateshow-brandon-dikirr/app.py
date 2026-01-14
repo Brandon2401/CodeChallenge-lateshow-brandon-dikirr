@@ -16,3 +16,29 @@ def episodes():
         e.to_dict(only=("id", "date", "number"))
         for e in episodes
     ])
+
+@app.route("/episodes/<int:id>")
+def episode_by_id(id):
+    episode = Episode.query.get(id)
+
+    if not episode:
+        return jsonify({"error": "Episode not found"}), 404
+
+    return jsonify(
+        episode.to_dict(
+            include={
+                "appearances": {
+                    "only": ("id", "rating", "episode_id", "guest_id", "guest")
+                }
+            }
+        )
+    )
+ 
+@app.route("/guests")
+def guests():
+    guests = Guest.query.all()
+    return jsonify([
+        g.to_dict(only=("id", "name", "occupation"))
+        for g in guests
+    ])
+
