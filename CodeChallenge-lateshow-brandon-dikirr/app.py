@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from models import db, Episode, Guest, Appearance
 from flask_migrate import Migrate
 
-app = Flask(__name__)
+app = Flask(__name__,instance_relative_config=True)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
