@@ -61,6 +61,20 @@ def create_appearance():
                 include=("episode", "guest")
             )
         ), 201
-
     except Exception as e:
         return jsonify({"errors": [str(e)]}), 400
+
+@app.route("/episodes/<int:id>", methods=["DELETE"])
+def delete_episode(id):
+    episode = Episode.query.get(id)
+
+    if not episode:
+        return jsonify({"error": "Episode not found"}), 404
+
+    db.session.delete(episode)
+    db.session.commit()
+
+    return "", 204
+
+
+

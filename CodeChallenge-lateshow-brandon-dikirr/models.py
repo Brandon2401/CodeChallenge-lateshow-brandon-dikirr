@@ -26,12 +26,13 @@ class Episode(db.Model, SerializerMixin):
 
     serialize_rules = ("-appearances.episode",)
 
-    class Guest(db.Model, SerializerMixin):
-         __tablename__ = "guests"
 
-         id = db.Column(db.Integer, primary_key=True)
-         name = db.Column(db.String)
-         occupation = db.Column(db.String)
+class Guest(db.Model, SerializerMixin):
+    __tablename__ = "guests"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    occupation = db.Column(db.String)
 
     appearances = db.relationship(
         "Appearance",
